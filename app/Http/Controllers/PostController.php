@@ -19,7 +19,10 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        //dabū mainīgo no datubāzes ar visiem postiem
+        $posts = Post::all();
+        //parādīt mainīgo ar visiem postiem
+        return view('posts.index')->withPosts($posts);
     }
 
     /**
