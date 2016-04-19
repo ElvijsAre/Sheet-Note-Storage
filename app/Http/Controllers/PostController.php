@@ -20,7 +20,7 @@ class PostController extends Controller
     public function index()
     {
         //dabū mainīgo no datubāzes ar visiem postiem
-        $posts = Post::all();
+        $posts = Post::orderBy('id', 'desc')->paginate(10);
         //parādīt mainīgo ar visiem postiem
         return view('posts.index')->withPosts($posts);
     }
@@ -83,7 +83,10 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        //
+        // dabut postu no datubazes un saglabat ka mainigo
+        $post = Post::find($id);
+        //return the view ar mainigo, kurs satur info
+        return view('posts.edit')->withPost($post);
     }
 
     /**
@@ -95,7 +98,26 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // Validate datus
+        $this->validate($request, array(
+            'title' => 'required|max:255',
+            'body' => 'required'
+        ));
+        // Saglabat datus
+        $post = Post::find($id);
+        
+        $post->title = $request->input('title');
+        $post->body = $request->input('body');
+        // Laiks tiks updatots automatiski
+        
+        $post->save();
+        
+        // set flash data are success zinu
+        
+        Session::flash('success', 'This post was succesfully saved.');                
+        
+        // refirect ar flast datiem uz posts.show
+        return redirect()->route('posts.show', $post->id);
     }
 
     /**
@@ -106,6 +128,12 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $post = Post::find($id);
+        
+        $post->delete();
+        
+        Session::flash('success', 'The post was successfully deleted.');
+        
+        return redirect()->route('posts.index');
     }
 }
