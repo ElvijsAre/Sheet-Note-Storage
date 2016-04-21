@@ -43,6 +43,11 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+        $timestamp = time();
+        $url = str_slug($request->title ,"_");
+        $slug = $timestamp . "" . $url;
+        
+        
         // validation of data
         $this->validate($request, array(
             'title' => 'required|max:255',
@@ -52,6 +57,7 @@ class PostController extends Controller
         $post = new Post;
         
         $post->title = $request->title;
+        $post->slug = $slug;
         $post->body = $request->body;
         
         $post->save();
@@ -98,6 +104,10 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $timestamp = time();
+        $url = str_slug($request->title ,"_");
+        $slug = $timestamp . "" . $url;
+        
         // Validate datus
         $this->validate($request, array(
             'title' => 'required|max:255',
@@ -107,6 +117,7 @@ class PostController extends Controller
         $post = Post::find($id);
         
         $post->title = $request->input('title');
+        $post->slug = $slug;
         $post->body = $request->input('body');
         // Laiks tiks updatots automatiski
         
