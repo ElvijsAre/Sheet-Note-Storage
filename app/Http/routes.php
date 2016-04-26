@@ -10,6 +10,25 @@
 | and give it the controller to call when that URI is requested.
 |
 */
+// Authentication Routes
+
+Route::get('login', ['as' => 'login', 'uses' => 'Auth\AuthController@getLogin']);
+Route::post('login', 'Auth\AuthController@postLogin');
+Route::get('logout', ['as' => 'logout', 'uses' => 'Auth\AuthController@logout']);
+
+// Registration Routes
+
+Route::get('register', 'Auth\AuthController@getRegister');
+Route::post('register', 'Auth\AuthController@postRegister');
+
+// Password Reset Routes
+
+Route::get('password/reset/{token?}', 'Auth\PasswordController@showResetForm');
+Route::post('password/email', 'Auth\PasswordController@sendResetLinkEmail');
+Route::post('password/reset', 'Auth\PasswordController@reset');
+
+// Pages Routes
+
 Route::get('forum/{slug}', ['as' => 'forum.single', 'uses' => 'ForumController@getSingle'])->where('slug', '[\w\d\-\_]+');
 Route::get('forum', ['uses' => 'ForumController@getIndex', 'as' => 'forum.index']);
 Route::get('/', 'PagesController@getIndex');
