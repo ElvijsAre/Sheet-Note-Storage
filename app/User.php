@@ -12,7 +12,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'age', 'birth_date', 'gender', 'country_id',
     ];
 
     /**
@@ -21,6 +21,17 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token', 'is_admin' , 'is_blocked',
     ];
+    
+    public function country() {
+        
+        return $this->belongsTo('App\Country');
+
+    }
+    
+    public function posts() {
+        
+        return $this->hasMany('App\Post');
+    }
 }

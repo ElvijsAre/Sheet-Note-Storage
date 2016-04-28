@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use App\Country;
 use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
@@ -52,9 +53,24 @@ class AuthController extends Controller
             'name' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:6|confirmed',
+            'password_confirmation'=> 'required',
+            'age' => 'Integer|max:120|min:0',
+            'birth_date' => 'Date|after:01.01.1900|before:today|',
         ]);
     }
 
+    /**
+     * 
+     * Get list of countries for registration view 
+     */
+    
+    public function getCountries()
+    {
+    //...
+    $countries = Country::all();
+    return view('auth.register')->withCountries($countries);
+    }
+    
     /**
      * Create a new user instance after a valid registration.
      *
@@ -67,6 +83,10 @@ class AuthController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
+            'age' => $data['age'],
+            'birth_date' => $data['birth_date'],
+            'gender' => $data['gender'],
+            'country_id' => $data['country'],
         ]);
     }
 }

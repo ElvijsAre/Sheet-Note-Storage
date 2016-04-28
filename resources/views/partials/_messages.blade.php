@@ -18,3 +18,11 @@
 </div>
 
 @endif
+
+@if (Session::has('failed'))
+
+    <div class="alert alert-danger" role="alert">
+        <strong>Failed:</strong> {{ Session::get('failed') }}
+    </div>
+
+@endif

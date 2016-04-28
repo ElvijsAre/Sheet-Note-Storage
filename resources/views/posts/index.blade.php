@@ -23,6 +23,8 @@
                     <th>Title</th>
                     <th>Body</th>
                     <th>Created At</th>
+                    <th>Author</th>
+                    <th>Category</th>
                     <th></th>
                 </thead>
                 
@@ -35,6 +37,8 @@
                         <td>{{ $post->title }}</td>
                         <td>{{ substr($post->body, 0, 50) }}{{ strlen($post->body) > 50 ? "..." : ""  }}</td>
                         <td>{{ date('j M, Y H:i', strtotime($post->created_at)) }}</td>
+                        <td>{{ $post->user->name }}</td>
+                        <td>{{ $post->category->name }}</td>
                         <td><a href="{{ route('posts.show',$post->id) }}" class="btn btn-default btn-sm">View</a> <a href="{{ route('posts.edit', $post->id) }}" class="btn btn-default btn-sm">Edit</a></td>
                     </tr>
                     

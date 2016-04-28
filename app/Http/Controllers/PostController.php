@@ -7,7 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 
 use App\Post;
-
+use App\Category;
+use Illuminate\Support\Facades\Auth;
 use Session;
 
 class PostController extends Controller
@@ -27,6 +28,7 @@ class PostController extends Controller
         $posts = Post::orderBy('id', 'desc')->paginate(10);
         //parādīt mainīgo ar visiem postiem
         return view('posts.index')->withPosts($posts);
+        //->where(Auth::user()->id = $posts->user_id);
     }
 
     /**
@@ -36,7 +38,8 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('posts.create');
+        $categories = Category::all();
+        return view('posts.create', compact('categories'));
     }
 
     /**
@@ -49,7 +52,7 @@ class PostController extends Controller
     {
         $timestamp = time();
         $url = str_slug($request->title ,"_");
-        $slug = $timestamp . "" . $url;
+        $slug = $timestamp . "_" . $url;
         
         
         // validation of data
@@ -61,8 +64,10 @@ class PostController extends Controller
         $post = new Post;
         
         $post->title = $request->title;
+        $post->category_id = $request->category;
         $post->slug = $slug;
         $post->body = $request->body;
+        $post->user_id = Auth::user()->id;
         
         $post->save();
         
@@ -110,7 +115,7 @@ class PostController extends Controller
     {
         $timestamp = time();
         $url = str_slug($request->title ,"_");
-        $slug = $timestamp . "" . $url;
+        $slug = $timestamp . "_" . $url;
         
         // Validate datus
         $this->validate($request, array(
@@ -118,21 +123,31 @@ class PostController extends Controller
             'body' => 'required'
         ));
         // Saglabat datus
+        // Parbaude vai postu edito tā autors
         $post = Post::find($id);
-        
-        $post->title = $request->input('title');
-        $post->slug = $slug;
-        $post->body = $request->input('body');
-        // Laiks tiks updatots automatiski
-        
-        $post->save();
-        
-        // set flash data are success zinu
-        
-        Session::flash('success', 'This post was succesfully saved.');                
-        
-        // refirect ar flast datiem uz posts.show
-        return redirect()->route('posts.show', $post->id);
+        if (Auth::user()->id == $post->user_id)
+            {
+            $post->category_id = $request->category;
+            $post->title = $request->input('title');
+            $post->slug = $slug;
+            $post->body = $request->input('body');
+            // Laiks tiks updatots automatiski
+
+            $post->save();
+
+            // set flash data are success zinu
+
+            Session::flash('success', 'This post was succesfully saved.');
+
+            // refirect ar flast datiem uz posts.show
+            return redirect()->route('posts.show', $post->id);
+        }
+        // kļūdas paziņojums, ja nav posta autors
+        else 
+            {
+            Session::flash('failed', 'This post was NOT succesfully saved.');
+            return redirect()->route('posts.index');
+            }
     }
 
     /**

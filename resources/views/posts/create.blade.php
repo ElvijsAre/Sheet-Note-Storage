@@ -16,6 +16,10 @@
         <hr>
         
         {!! Form::open(array('route' => 'posts.store', 'data-parsley-validate' => '')) !!}
+        
+            {{ Form::label('category', 'Category:') }}
+            {{ Form::select('category', App\Category::lists('name', 'id'), null, ['class'=> 'form-control']) }}
+        
             {{ Form::label('title', 'Title:') }}
             {{ Form::text('title', null, array('class' => 'form-control', 'required' => '', 'maxlength' => '255')) }}
                    

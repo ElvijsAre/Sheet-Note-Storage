@@ -13,6 +13,10 @@
 <div class="row">
     {!! Form::model($post, ['route' => ['posts.update', $post->id], 'data-parsley-validate' => '', 'method' => 'PUT']) !!}
     <div class="col-md-8">
+        
+        {{ Form::label('category', 'Category:') }}
+        {{ Form::select('category', App\Category::lists('name', 'id'), null, ['class'=> 'form-control']) }}
+        
         {{ Form::label('title', 'Title:') }}
         {{ Form::text('title', null, ["class" => 'form-control input-lg', 'required' => '', 'maxlength' => '255']) }}
                
