@@ -25,7 +25,7 @@ class PostController extends Controller
     public function index()
     {
         //dabū mainīgo no datubāzes ar visiem postiem
-        $posts = Post::orderBy('id', 'desc')->paginate(10);
+        $posts = Post::orderBy('id', 'desc')->where('user_id', '=' , Auth::user()->id)->paginate(10);
         //parādīt mainīgo ar visiem postiem
         return view('posts.index')->withPosts($posts);
         //->where(Auth::user()->id = $posts->user_id);
@@ -141,11 +141,11 @@ class PostController extends Controller
 
             // refirect ar flast datiem uz posts.show
             return redirect()->route('posts.show', $post->id);
-        }
+            }
         // kļūdas paziņojums, ja nav posta autors
         else 
             {
-            Session::flash('failed', 'This post was NOT succesfully saved.');
+            Session::flash('failed', "This post was NOT succesfully saved, because you aren't the author!");
             return redirect()->route('posts.index');
             }
     }

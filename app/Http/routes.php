@@ -18,7 +18,7 @@ Route::get('logout', ['as' => 'logout', 'uses' => 'Auth\AuthController@logout'])
 
 // Registration Routes
 
-Route::get('register', 'Auth\AuthController@getRegister');
+Route::get('register', ['as' => 'register', 'uses' => 'Auth\AuthController@getRegister']);
 Route::post('register', 'Auth\AuthController@postRegister');
 
 // Password Reset Routes
@@ -33,4 +33,8 @@ Route::get('forum/{slug}', ['as' => 'forum.single', 'uses' => 'ForumController@g
 Route::get('forum', ['uses' => 'ForumController@getIndex', 'as' => 'forum.index']);
 Route::get('/', 'PagesController@getIndex');
 Route::get('/about', 'PagesController@getAbout');
+
+// Reosurce Routes
+
 Route::resource('posts','PostController');
+Route::resource('comments','CommentController');
