@@ -38,3 +38,9 @@ Route::get('/about', 'PagesController@getAbout');
 
 Route::resource('posts','PostController');
 Route::resource('comments','CommentController');
+
+// Admin Routes
+Route::group(['middleware' => ['auth', 'admin']], function()
+{
+	Route::resource('admin','AdminController');
+});

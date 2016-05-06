@@ -14,7 +14,7 @@ use Session;
 class PostController extends Controller
 {
     public function __construct() {
-        $this->middleware('auth');
+        $this->middleware (['auth', 'blocked']);
     }
     
     /**
@@ -25,7 +25,15 @@ class PostController extends Controller
     public function index()
     {
         //dabū mainīgo no datubāzes ar visiem postiem
-        $posts = Post::orderBy('id', 'desc')->where('user_id', '=' , Auth::user()->id)->paginate(10);
+        if(Auth::user()->is_admin == 1)
+        {
+            $posts = Post::orderBy('id', 'desc')->paginate(10);
+        }
+        else
+        {
+            $posts = Post::orderBy('id', 'desc')->where('user_id', '=' , Auth::user()->id)->paginate(10);
+        }
+        //$posts = Post::orderBy('id', 'desc')->where('user_id', '=' , Auth::user()->id)->paginate(10);
         //parādīt mainīgo ar visiem postiem
         return view('posts.index')->withPosts($posts);
         //->where(Auth::user()->id = $posts->user_id);
@@ -142,7 +150,25 @@ class PostController extends Controller
             // refirect ar flast datiem uz posts.show
             return redirect()->route('posts.show', $post->id);
             }
-        // kļūdas paziņojums, ja nav posta autors
+        // Ja ir admins    
+        if (Auth::user()->is_admin == 1)
+            {
+            $post->category_id = $request->category;
+            $post->title = $request->input('title');
+            $post->slug = $slug;
+            $post->body = $request->input('body');
+            // Laiks tiks updatots automatiski
+
+            $post->save();
+
+            // set flash data are success zinu
+
+            Session::flash('success', 'This post was succesfully saved.');
+
+            // refirect ar flast datiem uz posts.show
+            return redirect()->route('posts.show', $post->id);
+            }
+        // kļūdas paziņojums, ja nav posta autors vai admins
         else 
             {
             Session::flash('failed', "This post was NOT succesfully saved, because you aren't the author!");
@@ -159,11 +185,27 @@ class PostController extends Controller
     public function destroy($id)
     {
         $post = Post::find($id);
+        if (Auth::user()->id == $post->user_id)
+            {
+            $post->delete();
         
-        $post->delete();
+            Session::flash('success', 'The post was successfully deleted.');
         
-        Session::flash('success', 'The post was successfully deleted.');
+            return redirect()->route('posts.index');
+            }
+        if (Auth::user()->is_admin == 1)
+            {
+            $post->delete();
         
-        return redirect()->route('posts.index');
+            Session::flash('success', 'The post was successfully deleted.');
+        
+            return redirect()->route('posts.index');
+            }
+        else
+            {
+            Session::flash('failed', "This post was NOT deleted, because you aren't the author!");
+            return redirect()->route('posts.index');
+            }
+        
     }
 }

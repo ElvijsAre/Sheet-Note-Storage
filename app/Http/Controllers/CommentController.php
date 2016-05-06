@@ -14,7 +14,7 @@ use Session;
 class CommentController extends Controller
 {
     public function __construct() {
-        $this->middleware('auth');
+        $this->middleware (['auth', 'blocked']);
     }
     
     /**
@@ -25,7 +25,14 @@ class CommentController extends Controller
     public function index()
     {
         //dabū mainīgo no datubāzes ar visiem postiem
-        $comments = Comment::orderBy('id', 'desc')->where('user_id', '=' , Auth::user()->id)->paginate(10);
+        if(Auth::user()->is_admin == 1)
+        {
+            $comments = Comment::orderBy('id', 'desc')->paginate(10);
+        }
+        else
+        {
+            $comments = Comment::orderBy('id', 'desc')->where('user_id', '=' , Auth::user()->id)->paginate(10);
+        }
         //parādīt mainīgo ar visiem postiem
         return view('comments.index')->withComments($comments);
         //with('comments',$comments);
@@ -118,6 +125,21 @@ class CommentController extends Controller
             // redirect
             return redirect()->route('comments.show', $comment->id);
             }
+        // Ja ir admins    
+        if (Auth::user()->is_admin == 1)
+            {
+            $comment->body = $request->body;
+            // Laiks tiks updatots automatiski
+
+            $comment->save();
+
+            // set flash data are success zinu
+
+            Session::flash('success', 'The comment was succefully updated!');
+
+            // refirect ar flast datiem uz posts.show
+            return redirect()->route('comments.show', $comment->id);
+            }
         else 
             {
             Session::flash('failed', "This comment was NOT succesfully saved, because you aren't the author");
@@ -134,11 +156,26 @@ class CommentController extends Controller
     public function destroy($id)
     {
         $comment = Comment::find($id);
+        if (Auth::user()->id == $comment->user_id)
+            {
+            $comment->delete();
         
-        $comment->delete();
+            Session::flash('success', 'The comment was successfully deleted!');
         
-        Session::flash('success', 'The comment was successfully deleted!');
+            return redirect()->route('comments.index');
+            }
+        if (Auth::user()->is_admin == 1)
+            {
+            $comment->delete();
         
-        return redirect()->route('comments.index');
+            Session::flash('success', 'The comment was successfully deleted!');
+        
+            return redirect()->route('comments.index');
+            }
+        else
+            {
+            Session::flash('failed', "This comment was NOT deleted, because you aren't the author!");
+            return redirect()->route('comments.index');
+            }      
     }
 }
