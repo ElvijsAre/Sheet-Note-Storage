@@ -27,7 +27,6 @@ class User extends Authenticatable
     public function country() {
         
         return $this->belongsTo('App\Country');
-
     }
     
     public function posts() {
@@ -38,5 +37,14 @@ class User extends Authenticatable
     public function comments() {
         
         return $this->hasMany('App\Comment');
+    }
+    
+    public function sender(){
+    
+        return $this->hasMany('App\Message', 'sender_id');
+    }
+    public function recipient(){
+        
+        return $this->hasMany('App\Message', 'recipient_id');
     }
 }
