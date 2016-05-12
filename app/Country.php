@@ -18,4 +18,9 @@ class Country extends Model
         
         return $this->hasMany('App\User');
     }
+    
+    public function music_author() {
+        
+        return $this->hasMany('App\Music_author');
+    }
 }

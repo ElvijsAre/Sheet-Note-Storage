@@ -108,6 +108,20 @@ class MessageController extends Controller
     {
         
         $message = Message::find($id);
+        if (Auth::user()->id == $message->sender_id && Auth::user()->id == $message->recipient_id)
+            {
+            $message->is_deleted_sender = 1;
+            $message->is_deleted_recipient = 1;
+
+            $message->save();
+
+            // set flash data are success zinu
+
+            Session::flash('success', 'This message was succesfully deleted!');
+
+            // refirect ar flast datiem uz posts.show
+            return redirect()->route('messages.index');
+            }
         if (Auth::user()->id == $message->sender_id)
             {
             $message->is_deleted_sender = 1;

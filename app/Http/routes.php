@@ -39,6 +39,7 @@ Route::get('/about', 'PagesController@getAbout');
 Route::resource('posts','PostController');
 Route::resource('comments','CommentController');
 Route::resource('messages','MessageController');
+Route::resource('authors','Music_authorController');
 
 // Admin Routes
 Route::group(['middleware' => ['auth', 'admin']], function()

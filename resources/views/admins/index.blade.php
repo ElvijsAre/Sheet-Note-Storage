@@ -35,7 +35,7 @@
                         <td>{{ $user->name }}</td>
                         <td>{{ $user->is_admin == 1 ? "YES" : "NO" }}</td>
                         <td>{{ $user->is_blocked == 1 ? "YES" : "NO" }}</td>
-                        <td><a href="{{ route('admin.show',$user->id) }}" class="btn btn-default btn-sm">View</a> <a href="" class="btn btn-default btn-sm">Edit</a></td>
+                        <td><a href="{{ route('admin.show',$user->id) }}" class="btn btn-default btn-sm">View</a> <a href="{{ route('admin.edit',$user->id) }}" class="btn btn-default btn-sm">Edit</a></td>
                     </tr>
                     
                     @endforeach

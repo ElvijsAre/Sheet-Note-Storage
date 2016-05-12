@@ -47,4 +47,8 @@ class User extends Authenticatable
         
         return $this->hasMany('App\Message', 'recipient_id');
     }
+    public function music_author() {
+        
+        return $this->hasMany('App\Music_author');
+    }
 }
