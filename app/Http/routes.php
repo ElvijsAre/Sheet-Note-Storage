@@ -40,6 +40,7 @@ Route::resource('posts','PostController');
 Route::resource('comments','CommentController');
 Route::resource('messages','MessageController');
 Route::resource('authors','Music_authorController');
+Route::resource('music/categories','Music_categoriesController');
 
 // Admin Routes
 Route::group(['middleware' => ['auth', 'admin']], function()
