@@ -9,7 +9,7 @@
         <h1>All Authors</h1>
     </div>
     <div class="col-md-2">
-        <a href="{{ route('authors.create') }}" class="btn btn-lg btn-block btn-primary btn-h1-spacing">Add a new author</a>
+        <a href="{{ route('music.authors.create') }}" class="btn btn-lg btn-block btn-primary btn-h1-spacing">Add a new author</a>
     </div>
     <div class="col-md-12">
     <hr>
@@ -43,7 +43,7 @@
                         <td>{{ date('j M, Y H:i', strtotime($author->death_date)) }}</td>
                         <td>{{ $author->gender }}</td>
                         <td>{{ $author->user->name or "No User" }}</td>
-                        <td><a href="{{ route('authors.show',$author->id) }}" class="btn btn-default btn-sm">View</a> <a href="{{ route('authors.edit', $author->id) }}" class="btn btn-default btn-sm">Edit</a></td>
+                        <td><a href="{{ route('music.authors.show',$author->id) }}" class="btn btn-default btn-sm">View</a> <a href="{{ route('music.authors.edit', $author->id) }}" class="btn btn-default btn-sm">Edit</a></td>
                     </tr>
                     
                     @endforeach

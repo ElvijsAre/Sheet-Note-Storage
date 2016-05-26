@@ -23,7 +23,7 @@
             {{ Form::label('title', 'Title:') }}
             {{ Form::text('title', null, array('class' => 'form-control', 'required' => '', 'maxlength' => '255')) }}
                    
-            {{ Form::label('body', 'Post Body:') }}
+            {{ Form::label('body', 'Message Body:') }}
             {{ Form::textarea('body', null, array('class' => 'form-control', 'required' => '')) }}
             
             {{ Form::submit('Send Message', array('class' => 'btn btn-lg btn-block', 'style' => 'margin-top: 20px;')) }}

@@ -31,10 +31,10 @@
             <hr>
             <div class="row">
                 <div class="col-sm-6">
-                    {!! Html::linkRoute('authors.edit', 'Edit', array($author->id), array('class' => 'btn btn-primary btn-block')) !!}
+                    {!! Html::linkRoute('music.authors.edit', 'Edit', array($author->id), array('class' => 'btn btn-primary btn-block')) !!}
                 </div>
                 <div class="col-sm-6">
-                    {!! Form::open(['route' => ['authors.destroy', $author->id], 'method' => 'DELETE']) !!}           
+                    {!! Form::open(['route' => ['music.authors.destroy', $author->id], 'method' => 'DELETE']) !!}           
                     {!! Form::submit('Delete', ["class" => 'btn btn-danger btn-block']) !!}                    
                     {!! Form::close() !!}
                 </div>
@@ -42,7 +42,7 @@
             
             <div class="row">
                 <div class="col-md-12">
-                    {{ Html::linkRoute('authors.index', 'All Authors', [], ['class' => 'btn btn-default btn-block btn-h1-spacing']) }}
+                    {{ Html::linkRoute('music.authors.index', 'All Authors', [], ['class' => 'btn btn-default btn-block btn-h1-spacing']) }}
                 </div>
                 
             </div>

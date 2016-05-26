@@ -15,7 +15,7 @@
         <h1>Add a new author</h1>
         <hr>
         
-        {!! Form::open(array('route' => 'authors.store', 'data-parsley-validate' => '')) !!}
+        {!! Form::open(array('route' => 'music.authors.store', 'data-parsley-validate' => '')) !!}
         
             {{ Form::label('name', 'Name:') }}
             {{ Form::text('name', null, ['class' => 'form-control']) }}

@@ -11,7 +11,7 @@
 @section ('content')
     
 <div class="row">
-    {!! Form::model($author, ['route' => ['authors.update', $author->id], 'method' => 'PUT']) !!}
+    {!! Form::model($author, ['route' => ['music.authors.update', $author->id], 'method' => 'PUT']) !!}
     <div class="col-md-8">
         
         {{ Form::label('name', 'Name:') }}
@@ -50,7 +50,7 @@
             <hr>
             <div class="row">
                 <div class="col-sm-6">
-                    {!! Html::linkRoute('authors.show', 'Cancel', array($author->id), array('class' => 'btn btn-danger btn-block')) !!}
+                    {!! Html::linkRoute('music.authors.show', 'Cancel', array($author->id), array('class' => 'btn btn-danger btn-block')) !!}
                 </div>
                 <div class="col-sm-6">
                     {{ Form::submit('Save Changes', ["class" => 'btn btn-success btn-block']) }}

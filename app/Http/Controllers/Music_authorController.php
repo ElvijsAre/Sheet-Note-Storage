@@ -72,7 +72,7 @@ class Music_authorController extends Controller
         
         // redirect
         
-        return redirect()->route('authors.show', $author->id);
+        return redirect()->route('music.authors.show', $author->id);
     }
 
     /**
@@ -132,7 +132,7 @@ class Music_authorController extends Controller
         
         // redirect
         
-        return redirect()->route('authors.show', $author->id);
+        return redirect()->route('music.authors.show', $author->id);
     }
 
     /**
@@ -148,6 +148,6 @@ class Music_authorController extends Controller
         
         Session::flash('success', 'Author was successfully deleted!');
         
-        return redirect()->route('authors.index');
+        return redirect()->route('music.authors.index');
     }
 }

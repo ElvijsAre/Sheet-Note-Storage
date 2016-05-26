@@ -152,7 +152,7 @@ class MessageController extends Controller
         // kļūdas paziņojums, ja nav posta autors vai admins
         else 
             {
-            Session::flash('failed', "404");
+            Session::flash('failed', "You aren't the messages sender or recipient!");
             return redirect()->route('messages.index');
             }
     }

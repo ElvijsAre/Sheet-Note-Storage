@@ -15,4 +15,9 @@ class Music_author extends Model
         
         return $this->belongsTo('App\Country');
     }
+    
+    public function sheet_music() {
+        
+        return $this->belongsToMany('App\Sheet_music', 'sheet_music_authors', 'sheet_music_id', 'music_author_id')->withTimestamps();
+    }
 }
