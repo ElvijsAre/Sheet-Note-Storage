@@ -15,7 +15,7 @@
         <h1>Create New Musical</h1>
         <hr>
         
-        {!! Form::open(array('route' => 'music.sheets.store','method'=>'POST', 'files'=>true, 'data-parsley-validate' => '')) !!}
+        {!! Form::open(array('route' => 'music.sheets.store', 'data-parsley-validate' => '')) !!}
         
             {{ Form::label('title', 'Title:') }}
             {{ Form::text('title', null, array('class' => 'form-control', 'required' => '', 'maxlength' => '255')) }}
@@ -25,9 +25,6 @@
             
             {{ Form::label('authors', 'Authors:') }}
             {{ Form::select('authors[]', App\Music_author::lists('name', 'id'), null, ['class' => 'form-control', 'multiple']) }}
-            
-            {{ Form::label('file', 'Sheet Notes:') }}
-            {{ Form::file('file', ['class' => 'form-control']) }}
             
             {{ Form::submit('Create Musical', array('class' => 'btn btn-lg btn-block', 'style' => 'margin-top: 20px;')) }}
         {!! Form::close() !!}

@@ -52,7 +52,6 @@ class Sheet_musicController extends Controller
     {
         //dd($request->input('categories'), $request->input('authors'));
         // validation of data
-        // validation of data
         $this->validate($request, array(
             'title' => 'required|max:255',
         ));
@@ -68,7 +67,7 @@ class Sheet_musicController extends Controller
         $sheet->music_author()->attach($request->authors);
         
         $sheet->save();
-        
+              
         Session::flash('success', 'Musical succesfully added!');
         
         // redirect
@@ -148,26 +147,9 @@ class Sheet_musicController extends Controller
         return redirect()->route('music.sheets.index');
     
     }
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function getUpload($id)
+    public function download($file_name) 
     {
-        $sheet = sheet_music::find($id);
-        return view('music_sheets.upload')->withSheet($sheet);
-    }
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function postUpload($id)
-    {
-        $sheet = sheet_music::find($id);
-        return view('music_sheets.edit')->withSheet($sheet);
+        $file_path = storage_path('app/public/files/'.$file_name);
+        return response()->download($file_path);
     }
 }

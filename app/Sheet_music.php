@@ -20,8 +20,8 @@ class Sheet_music extends Model
         
         return $this->belongsToMany('App\Music_categories', 'sheet_music_categories', 'sheet_music_id', 'music_category_id')->withTimestamps();
     }
-    public function music_orchestation() {
+    public function music_orchestration() {
         
-        return $this->hasMany('App\Music_orchestation');
+        return $this->hasMany('App\Music_orchestration');
     }
 }

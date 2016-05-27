@@ -8,9 +8,11 @@
     <div class="col-md-8">
 
         <h1>{{ $sheet->title }}</h1>
-
-        <p class="lead">TBA</p>
-
+        
+        @foreach ($sheet->music_orchestration as $orchestration)
+            {!! Html::link("download/$orchestration->file_name", "$orchestration->file_name") !!}
+        @endforeach
+        
     </div>
 
     <div class="col-md-4">
@@ -40,7 +42,6 @@
             <div class="row">
                 <div class="col-sm-6">
                     {!! Html::linkRoute('music.sheets.edit', 'Edit', array($sheet->id), array('class' => 'btn btn-primary btn-block')) !!}
-                    {!! Html::linkRoute('music_sheets.upload', 'Add Notes', array($sheet->id), array('class' => 'btn btn-primary btn-block')) !!}
                 </div>
                 <div class="col-sm-6">
                     {!! Form::open(['route' => ['music.sheets.destroy', $sheet->id], 'method' => 'DELETE']) !!}           

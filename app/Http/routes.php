@@ -33,8 +33,8 @@ Route::get('forum/{slug}', ['as' => 'forum.single', 'uses' => 'ForumController@g
 Route::get('forum', ['uses' => 'ForumController@getIndex', 'as' => 'forum.index']);
 Route::get('/', 'PagesController@getIndex');
 Route::get('/about', 'PagesController@getAbout');
-Route::get('music/sheets/{sheets}/upload', ['as' => 'music_sheets.upload', 'uses' => 'Sheet_musicController@getUpload']);
-Route::post('music/sheets/{sheets}/upload', 'Sheet_musicController@postUpload');
+Route::get('/download/{file}', 'Sheet_musicController@download');
+
 // Reosurce Routes
 
 Route::resource('posts','PostController');
@@ -43,6 +43,7 @@ Route::resource('messages','MessageController');
 Route::resource('music/authors','Music_authorController');
 Route::resource('music/categories','Music_categoriesController');
 Route::resource('music/sheets','Sheet_musicController');
+Route::resource('music/orchestrations','Music_orchestrationController');
 
 // Admin Routes
 Route::group(['middleware' => ['auth', 'admin']], function()

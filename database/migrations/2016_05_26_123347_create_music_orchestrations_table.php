@@ -12,7 +12,7 @@ class CreateMusicOrchestationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('music_orchestations', function (Blueprint $table) {
+        Schema::create('music_orchestrations', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('sheet_music_id')->unsigned();
             $table->foreign('sheet_music_id')->references('id')->on('sheet_musics')->onDelete('cascade');
