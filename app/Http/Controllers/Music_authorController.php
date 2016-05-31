@@ -13,6 +13,7 @@ use App\Music_author;
 
 class Music_authorController extends Controller
 {
+    //Security check if user is loged in and is not blocked.
     public function __construct() {
         $this->middleware (['auth', 'blocked']);
     }
@@ -23,7 +24,6 @@ class Music_authorController extends Controller
      */
     public function index()
     {
-        //dabū mainīgo no datubāzes ar visiem ierakstiem
         $authors = Music_author::orderBy('id', 'desc')->paginate(10);
         
         return view('authors.index')->withAuthors($authors);
@@ -72,7 +72,7 @@ class Music_authorController extends Controller
         
         // redirect
         
-        return redirect()->route('music.authors.show', $author->id);
+        return redirect()->route('music.authors.index');
     }
 
     /**
@@ -132,7 +132,7 @@ class Music_authorController extends Controller
         
         // redirect
         
-        return redirect()->route('music.authors.show', $author->id);
+        return redirect()->route('music.authors.index');
     }
 
     /**
@@ -143,11 +143,19 @@ class Music_authorController extends Controller
      */
     public function destroy($id)
     {
-        $author = Music_author::find($id);
-        $author->delete();
-        
-        Session::flash('success', 'Author was successfully deleted!');
-        
-        return redirect()->route('music.authors.index');
+        if (Auth::user()->is_admin == 1) 
+        {
+            $author = Music_author::find($id);
+            $author->delete();
+
+            Session::flash('success', 'Author was successfully deleted!');
+
+            return redirect()->route('music.authors.index');
+        }
+        else
+        {
+            Session::flash('failed', 'Only admins can delete Authors!');
+            return redirect()->route('music.authors.index');
+        }
     }
 }

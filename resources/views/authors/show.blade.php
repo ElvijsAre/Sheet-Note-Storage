@@ -10,9 +10,27 @@
         <h1>Author name: {{  $author->name }}</h1>
         <h3>Gender: {{ $author->gender }}</h3>
         <h3>Country: {{ $author->country->name }}</h3>
-        <h3>Age: {{ $author->age }}</h3>
-        <h3>Birth date: {{ $author->birth_date }}</h3>
-        <h3>Death date: {{ $author->death_date }}</h3>
+        <h3>Age:
+            @if ($author->age == 0)
+            No Date Given
+            @else
+            {{ $author->age }}
+            @endif
+        </h3>
+        <h3>Birth date: 
+            @if ($author->birth_date == 0)
+            No Age Given
+            @else
+            {{ $author->birth_date }}
+            @endif
+        </h3>
+        <h3>Death date:
+            @if ($author->birth_date == 0)
+            No Date Given
+            @else
+            {{ $author->death_date }}
+            @endif
+        </h3>
         <h3>Last edited by: {{$author->user->name or "No User" }}</h3>
 
     </div>

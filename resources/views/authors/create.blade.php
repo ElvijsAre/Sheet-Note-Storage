@@ -1,12 +1,6 @@
 @extends('main')
 
-@section('title',' | Send a New Message')
-
-@section('stylesheets')
-    <!-- Parsly CSS validation -->
-    {!! Html::style('css/parsley.css') !!}
-
-@endsection
+@section('title',' | Add a New Author')
 
 @section('content')
 
@@ -15,7 +9,7 @@
         <h1>Add a new author</h1>
         <hr>
         
-        {!! Form::open(array('route' => 'music.authors.store', 'data-parsley-validate' => '')) !!}
+        {!! Form::open(array('route' => 'music.authors.store')) !!}
         
             {{ Form::label('name', 'Name:') }}
             {{ Form::text('name', null, ['class' => 'form-control']) }}
@@ -43,10 +37,4 @@
     </div>
 </div>
 
-@endsection
-
-@section('scripts')
-     <!-- Parsly Js validation -->
-    {!! Html::script('js/parsley.min.js') !!}
-    
 @endsection

@@ -7,7 +7,7 @@ use Closure;
 class AdminMiddleware
 {
     /**
-     * Handle an incoming request.
+     * Handle an incoming request and checks if user is admin, if not user is rederected to home.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next

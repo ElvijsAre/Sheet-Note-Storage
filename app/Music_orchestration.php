@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Music_orchestration extends Model
 {
-    public function music_orchestration() {
+    public function sheet_music() {
         
         return $this->belongsTo('App\Sheet_music');
     }

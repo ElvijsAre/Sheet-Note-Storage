@@ -2,22 +2,16 @@
 
 @section('title', '| Edit Post')
 
-@section('stylesheets')
-    <!-- Parsly CSS validation -->
-    {!! Html::style('css/parsley.css') !!}
-
-@endsection
-
 @section ('content')
     
 <div class="row">
-    {!! Form::model($comment, ['route' => ['comments.update', $comment->id], 'data-parsley-validate' => '', 'method' => 'PUT']) !!}
+    {!! Form::model($comment, ['route' => ['comments.update', $comment->id], 'method' => 'PUT']) !!}
     <div class="col-md-8">
         
         <h1>{{ $comment->post->title }}</h1>
                    
         {{ Form::label('body', 'Comment Body:') }}
-        {{ Form::textarea('body', null, array('class' => 'form-control', 'required' => '')) }}
+        {{ Form::textarea('body', null, array('class' => 'form-control')) }}
             
 
     </div>
@@ -36,6 +30,9 @@
             <hr>
             <div class="row">
                 <div class="col-sm-6">
+                    {!! Html::linkRoute('comments.show', 'Cancel', array($comment->id), array('class' => 'btn btn-danger btn-block')) !!}
+                </div>
+                <div class="col-sm-6">
                     {{ Form::submit('Save Changes', ["class" => 'btn btn-success btn-block']) }}
                 </div>
             </div>
@@ -46,10 +43,3 @@
 </div>
 
 @endsection
-
-@section('scripts')
-     <!-- Parsly Js validation -->
-    {!! Html::script('js/parsley.min.js') !!}
-    
-@endsection
-

@@ -60,15 +60,15 @@ class AuthController extends Controller
     }
 
     /**
+     * Get list of countries for registration view for useer to select from.
      * 
-     * Get list of countries for registration view 
+     * @return countrise All countries for registration form.
      */
     
     public function getCountries()
     {
-    //...
-    $countries = Country::all();
-    return view('auth.register')->withCountries($countries);
+        $countries = Country::all();
+        return view('auth.register')->withCountries($countries);
     }
     
     /**

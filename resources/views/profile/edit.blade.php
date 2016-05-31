@@ -2,10 +2,16 @@
 
 @section('title', '| Edit User')
 
+@section('stylesheets')
+    <!-- Parsly CSS validation -->
+    {!! Html::style('css/parsley.css') !!}
+
+@endsection
+
 @section ('content')
     
 <div class="row">
-    {!! Form::model($user, ['route' => ['admin.update', $user->id], 'method' => 'PUT']) !!}
+    {!! Form::model($user, ['route' => ['profile.update', $user->id], 'method' => 'PUT']) !!}
     <div class="col-md-8">
         
         {{ Form::label('name', 'Name:') }}
@@ -28,11 +34,6 @@
         {{ Form::label('country', 'Country:') }}
         {{ Form::select('country', App\Country::lists('name', 'id'), null, ['class'=> 'form-control']) }} 
         
-        {{ Form::label('is_blocked', 'Blocked:' ) }}
-        {{ Form::select('is_blocked', ['0' => 'NO', '1' => 'YES' ], null, ['class'=> 'form-control']) }}
-        
-        {{ Form::label('is_admin', 'Admin:' ) }}
-        {{ Form::select('is_admin', ['0' => 'NO', '1' => 'YES' ], null, ['class'=> 'form-control']) }}
     </div>
 
     <div class="col-md-4">
@@ -49,7 +50,7 @@
             <hr>
             <div class="row">
                 <div class="col-sm-6">
-                    {!! Html::linkRoute('admin.show', 'Cancel', array($user->id), array('class' => 'btn btn-danger btn-block')) !!}
+                    {!! Html::linkRoute('profile', 'Cancel', array($user->id), array('class' => 'btn btn-danger btn-block')) !!}
                 </div>
                 <div class="col-sm-6">
                     {{ Form::submit('Save Changes', ["class" => 'btn btn-success btn-block']) }}
@@ -61,4 +62,10 @@
     {!! Form::close() !!}
 </div>
 
+@endsection
+
+@section('scripts')
+     <!-- Parsly Js validation -->
+    {!! Html::script('js/parsley.min.js') !!}
+    
 @endsection

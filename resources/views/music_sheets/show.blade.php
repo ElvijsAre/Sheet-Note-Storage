@@ -25,7 +25,7 @@
                 @endforeach
             </dl>
             <dl class="d2-horizontal">
-                <label>Category(s):</label>
+                <label>Author(s):</label>
                 @foreach ($sheet->music_author as $author)
                              <p>{{ $author->name }}</p>
                 @endforeach

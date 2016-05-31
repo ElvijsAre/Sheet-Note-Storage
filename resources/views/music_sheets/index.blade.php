@@ -19,12 +19,11 @@
         <div class="col-md-12">
             <table class="table">
                 <thead>
-                    <th>#</th>
-                    <th>title</th>
-                    <th>Added by</th>
+                    <th>Title</th>
                     <th>Author(s)</th>
                     <th>Category(s)</th>
-                    <th></th>
+                    <th>Files</th>
+                    <th>Added by</th>
                 </thead>
                 
                 <tbody>
@@ -32,9 +31,7 @@
                     @foreach ($sheets as $sheet)
                     
                     <tr>
-                        <th>{{ $sheet->id }}</th>
-                        <td>{{ $sheet->title }}</td>
-                        <td>{{ $sheet->user->name }}</td>
+                        <th>{{ $sheet->title }}</th>
                         <td>
                             @foreach ($sheet->music_author as $author)
                             {{ $author->name }}
@@ -45,8 +42,13 @@
                             {{ $category->name }}
                             @endforeach
                         </td>
-                        <td>TBA</td>
-                        <td><a href="{{ route('music.sheets.show',$sheet->id) }}" class="btn btn-default btn-sm">View</a> <a href="{{ route('music.sheets.edit', $sheet->id) }}" class="btn btn-default btn-sm">Edit</a></td>
+                        <td>
+                            @foreach ($sheet->music_orchestration as $orchestration)
+                            {!! Html::link("download/$orchestration->file_name", "$orchestration->file_name") !!}
+                            @endforeach
+                        </td>
+                        <td>{{ $sheet->user->name }}</td>
+                        <td class="text-right"><a href="{{ route('music.sheets.show',$sheet->id) }}" class="btn btn-default btn-sm">View</a> <a href="{{ route('music.sheets.edit', $sheet->id) }}" class="btn btn-default btn-sm">Edit</a></td>
                     </tr>
                     
                     @endforeach

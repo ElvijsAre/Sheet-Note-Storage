@@ -13,6 +13,7 @@ use Session;
 
 class PostController extends Controller
 {
+    //Security check if user is loged in and is not blocked.
     public function __construct() {
         $this->middleware (['auth', 'blocked']);
     }
@@ -24,7 +25,6 @@ class PostController extends Controller
      */
     public function index()
     {
-        //dabū mainīgo no datubāzes ar visiem postiem
         if(Auth::user()->is_admin == 1)
         {
             $posts = Post::orderBy('id', 'desc')->paginate(10);
@@ -33,10 +33,7 @@ class PostController extends Controller
         {
             $posts = Post::orderBy('id', 'desc')->where('user_id', '=' , Auth::user()->id)->paginate(10);
         }
-        //$posts = Post::orderBy('id', 'desc')->where('user_id', '=' , Auth::user()->id)->paginate(10);
-        //parādīt mainīgo ar visiem postiem
         return view('posts.index')->withPosts($posts);
-        //->where(Auth::user()->id = $posts->user_id);
     }
 
     /**
@@ -130,8 +127,7 @@ class PostController extends Controller
             'title' => 'required|max:255',
             'body' => 'required'
         ));
-        // Saglabat datus
-        // Parbaude vai postu edito tā autors
+        // If author
         $post = Post::find($id);
         if (Auth::user()->id == $post->user_id)
             {
@@ -139,25 +135,22 @@ class PostController extends Controller
             $post->title = $request->input('title');
             $post->slug = $slug;
             $post->body = $request->input('body');
-            // Laiks tiks updatots automatiski
 
             $post->save();
 
-            // set flash data are success zinu
 
             Session::flash('success', 'This post was succesfully saved.');
 
             // refirect ar flast datiem uz posts.show
             return redirect()->route('posts.show', $post->id);
             }
-        // Ja ir admins    
+        // If admin   
         if (Auth::user()->is_admin == 1)
             {
             $post->category_id = $request->category;
             $post->title = $request->input('title');
             $post->slug = $slug;
             $post->body = $request->input('body');
-            // Laiks tiks updatots automatiski
 
             $post->save();
 
@@ -168,7 +161,7 @@ class PostController extends Controller
             // refirect ar flast datiem uz posts.show
             return redirect()->route('posts.show', $post->id);
             }
-        // kļūdas paziņojums, ja nav posta autors vai admins
+        // If users is not admind or author
         else 
             {
             Session::flash('failed', "This post was NOT succesfully saved, because you aren't the author!");

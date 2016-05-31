@@ -7,11 +7,13 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Auth;
 use Session;
-use App\Music_categories;
+use App\Category;
 
-class Music_categoriesController extends Controller
+class CategoriesController extends Controller
 {
-    //Security check if user is loged in and is not blocked.
+    /**
+     * Security check if user is loged in, is admin and is not blocked
+     */
     public function __construct() {
         $this->middleware (['auth', 'blocked', 'admin']);
     }
@@ -22,8 +24,8 @@ class Music_categoriesController extends Controller
      */
     public function index()
     {
-        $categories = Music_categories::orderBy('id', 'desc')->paginate(10);
-        return view('music_categories.index')->withCategories($categories);
+        $categories = Category::orderBy('id', 'desc')->paginate(10);
+        return view('categories.index')->withCategories($categories);
     }
 
     /**
@@ -33,7 +35,7 @@ class Music_categoriesController extends Controller
      */
     public function create()
     {
-        return view('music_categories.create');
+        return view('categories.create');
     }
 
     /**
@@ -49,7 +51,7 @@ class Music_categoriesController extends Controller
             'name' => 'required|max:255',
         ));
         // store data in DB
-        $category = new Music_categories;
+        $category = new Category;
         
         $category->name = $request->name;
         
@@ -59,7 +61,7 @@ class Music_categoriesController extends Controller
         
         // redirect
         
-        return redirect()->route('music.categories.index');
+        return redirect()->route('categories.index');
     }
 
     /**
@@ -70,8 +72,8 @@ class Music_categoriesController extends Controller
      */
     public function show($id)
     {
-        $category = Music_categories::find($id);
-        return view('music_categories.show')->withCategory($category);
+        $category = Category::find($id);
+        return view('categories.show')->withCategory($category);
     }
 
     /**
@@ -82,9 +84,9 @@ class Music_categoriesController extends Controller
      */
     public function edit($id)
     {
-        $category = Music_categories::find($id);
+        $category = Category::find($id);
         //return the view ar mainigo, kurs satur info
-        return view('music_categories.edit')->withCategory($category);
+        return view('categories.edit')->withCategory($category);
     }
 
     /**
@@ -101,7 +103,7 @@ class Music_categoriesController extends Controller
             'name' => 'required|max:255',
         ));
         
-        $category = Music_categories::find($id);
+        $category = Category::find($id);
         
         $category->name = $request->name;
         
@@ -111,7 +113,7 @@ class Music_categoriesController extends Controller
         
         // redirect
         
-        return redirect()->route('music.categories.index');
+        return redirect()->route('categories.index');
     }
 
     /**
@@ -122,12 +124,12 @@ class Music_categoriesController extends Controller
      */
     public function destroy($id)
     {
-        $category = Music_categories::find($id);
+        $category = Category::find($id);
         
         $category->delete();
         
         Session::flash('success', 'The category was successfully deleted.');
         
-       return redirect()->route('music.categories.index');
+       return redirect()->route('categories.index');
     }
 }

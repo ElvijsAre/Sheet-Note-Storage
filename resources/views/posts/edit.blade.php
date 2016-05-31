@@ -2,26 +2,20 @@
 
 @section('title', '| Edit Post')
 
-@section('stylesheets')
-    <!-- Parsly CSS validation -->
-    {!! Html::style('css/parsley.css') !!}
-
-@endsection
-
 @section ('content')
     
 <div class="row">
-    {!! Form::model($post, ['route' => ['posts.update', $post->id], 'data-parsley-validate' => '', 'method' => 'PUT']) !!}
+    {!! Form::model($post, ['route' => ['posts.update', $post->id], 'method' => 'PUT']) !!}
     <div class="col-md-8">
         
         {{ Form::label('category', 'Category:') }}
         {{ Form::select('category', App\Category::lists('name', 'id'), null, ['class'=> 'form-control']) }}
         
         {{ Form::label('title', 'Title:') }}
-        {{ Form::text('title', null, ["class" => 'form-control input-lg', 'required' => '', 'maxlength' => '255']) }}
+        {{ Form::text('title', null, ["class" => 'form-control input-lg']) }}
                
         {{ Form::label('body', 'Body:', ["class" => 'form-spacing-top']) }}
-        {{ Form::textarea('body', null, ["class" => 'form-control', 'required' => '']) }}
+        {{ Form::textarea('body', null, ["class" => 'form-control']) }}
 
     </div>
 
@@ -51,10 +45,4 @@
     {!! Form::close() !!}
 </div>
 
-@endsection
-
-@section('scripts')
-     <!-- Parsly Js validation -->
-    {!! Html::script('js/parsley.min.js') !!}
-    
 @endsection

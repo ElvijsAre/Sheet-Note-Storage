@@ -13,6 +13,9 @@ use Session;
 
 class CommentController extends Controller
 {
+    /**
+     * Security check if user is loged in and is not blocked
+     */
     public function __construct() {
         $this->middleware (['auth', 'blocked']);
     }
@@ -24,7 +27,7 @@ class CommentController extends Controller
      */
     public function index()
     {
-        //dabū mainīgo no datubāzes ar visiem postiem
+        //Check if user is admin, if yes user recieves all data, if no only users owne data.
         if(Auth::user()->is_admin == 1)
         {
             $comments = Comment::orderBy('id', 'desc')->paginate(10);
@@ -33,10 +36,8 @@ class CommentController extends Controller
         {
             $comments = Comment::orderBy('id', 'desc')->where('user_id', '=' , Auth::user()->id)->paginate(10);
         }
-        //parādīt mainīgo ar visiem postiem
+        //Returns a viewe with a variable.
         return view('comments.index')->withComments($comments);
-        //with('comments',$comments);
-        //withCommments($comments);
     }
 
     /**
@@ -117,6 +118,7 @@ class CommentController extends Controller
         ));
         
         $comment = Comment::find($id);
+        // If user is author
         if (Auth::user()->id == $comment->user_id)
             {
             $comment->body = $request->body;
@@ -125,21 +127,21 @@ class CommentController extends Controller
             // redirect
             return redirect()->route('comments.show', $comment->id);
             }
-        // Ja ir admins    
+        // If user is admin 
         if (Auth::user()->is_admin == 1)
             {
             $comment->body = $request->body;
-            // Laiks tiks updatots automatiski
 
             $comment->save();
 
-            // set flash data are success zinu
+            // set flash data with success message
 
             Session::flash('success', 'The comment was succefully updated!');
 
-            // refirect ar flast datiem uz posts.show
+            // redirect to show route with sucess message
             return redirect()->route('comments.show', $comment->id);
             }
+        // If user is not admin or author     
         else 
             {
             Session::flash('failed', "This comment was NOT succesfully saved, because you aren't the author");
@@ -156,6 +158,7 @@ class CommentController extends Controller
     public function destroy($id)
     {
         $comment = Comment::find($id);
+        // If user is author
         if (Auth::user()->id == $comment->user_id)
             {
             $comment->delete();
@@ -164,6 +167,7 @@ class CommentController extends Controller
         
             return redirect()->route('comments.index');
             }
+        // If user is admin
         if (Auth::user()->is_admin == 1)
             {
             $comment->delete();
@@ -172,6 +176,7 @@ class CommentController extends Controller
         
             return redirect()->route('comments.index');
             }
+        // If useer is not admin or author
         else
             {
             Session::flash('failed', "This comment was NOT deleted, because you aren't the author!");

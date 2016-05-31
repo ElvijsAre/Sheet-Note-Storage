@@ -12,11 +12,15 @@ use App\User;
 
 class AdminController extends Controller
 {
+    /**
+     * Checks if user is blocked and if its prevents actions
+     *  
+     */
     public function __construct() {
         $this->middleware ('blocked');
     }
     /**
-     * Display a listing of the resource.
+     * Display a listing of all Users.
      *
      * @return \Illuminate\Http\Response
      */
@@ -51,7 +55,7 @@ class AdminController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified Users data.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -77,7 +81,7 @@ class AdminController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified Users information in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -85,7 +89,10 @@ class AdminController extends Controller
      */
     public function update(Request $request, $id)
     {      
-        // Validate datus
+        /** 
+         * Data validation, and checks if users email is changed before validation to prevent errors.
+         * 
+         */
         $user = User::find($id);
         if($request->input('email') == $user->email)
         {
@@ -104,8 +111,9 @@ class AdminController extends Controller
                 'birth_date' => 'Date|after:01.01.1900|before:today|',
             ));        
         }
-        // Saglabat datus
-        // Parbaude vai postu edito tā autors
+        /**
+         * Find correct User, request data from forms and saves changes in to DB
+         */
         $user = User::find($id);
         
         $user->name = $request->input('name');
@@ -116,15 +124,14 @@ class AdminController extends Controller
         $user->country_id = $request->input('country');
         $user->is_blocked = $request->input('is_blocked');
         $user->is_admin = $request->input('is_admin');
-        // Laiks tiks updatots automatiski
-
+        
         $user->save();
 
-        // set flash data are success zinu
+        /**
+         *  Flash message for succesfull edit and redirect.
+         */
 
-        Session::flash('success', 'User was succesfully saved.');
-
-        // refirect ar flast datiem uz posts.show
+        Session::flash('success', 'User info was succesfully updated.');
         return redirect()->route('admin.show', $user->id);
         
     }

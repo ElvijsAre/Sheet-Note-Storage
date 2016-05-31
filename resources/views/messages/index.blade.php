@@ -19,7 +19,6 @@
         <div class="col-md-12">
             <table class="table">
                 <thead>
-                    <th>#</th>
                     <th>Title</th>
                     <th>Body</th>
                     <th>Created At</th>
@@ -33,13 +32,12 @@
                     @foreach ($messages as $message)
                     
                     <tr>
-                        <th>{{ $message->id }}</th>
-                        <td>{{ $message->title }}</td>
+                        <th>{{ $message->title }}</th>
                         <td>{{ substr($message->body, 0, 50) }}{{ strlen($message->body) > 50 ? "..." : ""  }}</td>
                         <td>{{ date('j M, Y H:i', strtotime($message->created_at)) }}</td>
                         <td>{{ $message->sender->name }}</td>
                         <td>{{ $message->recipient->name }}</td>
-                        <td><a href="{{ route('messages.show',$message->id) }}" class="btn btn-default btn-sm">View</a></td>
+                        <td class="text-right"><a href="{{ route('messages.show',$message->id) }}" class="btn btn-default btn-sm">View</a></td>
                     </tr>
                     
                     @endforeach

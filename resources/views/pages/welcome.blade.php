@@ -3,17 +3,8 @@
 @section('content')
 
 <div class="row">
-    <div class="col-md-12">
-        <div class="jumbotron">
-            <h1>Hello, world!</h1>
-            <p class="lead"> Work in Progress </p>
-            <p><a class="btn btn-primary btn-lg" href="#" role="button">Popular Post</a></p>
-        </div>
-    </div>
-</div> <!-- end of header .row-->
-
-<div class="row">
     <div class="col-md-8">
+        <h1>Newest Forum posts</h1>
         
         @foreach($posts as $post)
         
@@ -27,9 +18,6 @@
         
         @endforeach
 
-    </div>
-    <div class="col-md-3 col-md-offset-1">
-        <h2>Sidebar</h2>
-    </div>           
+    </div>      
 </div>
 @endsection

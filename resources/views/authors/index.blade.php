@@ -19,7 +19,6 @@
         <div class="col-md-12">
             <table class="table">
                 <thead>
-                    <th>#</th>
                     <th>Name</th>
                     <th>Country</th>
                     <th>Age</th>
@@ -35,15 +34,32 @@
                     @foreach ($authors as $author)
                     
                     <tr>
-                        <th>{{ $author->id }}</th>
-                        <td>{{ $author->name }}</td>
+                        <th>{{ $author->name }}</th>
                         <td>{{ $author->country->name }}</td>
-                        <td>{{ $author->age }}</td>
-                        <td>{{ date('j M, Y H:i', strtotime($author->birth_date)) }}</td>
-                        <td>{{ date('j M, Y H:i', strtotime($author->death_date)) }}</td>
+                        <td>
+                            @if ($author->age == 0)
+                            No Age Given
+                            @else
+                            {{ $author->age }}
+                            @endif
+                        </td>
+                        <td>
+                            @if ($author->birth_date == 0)
+                            No Date Given
+                            @else
+                            {{ date('j M, Y', strtotime($author->birth_date)) }}
+                            @endif
+                        </td>
+                        <td>
+                            @if ($author->death_date == 0)
+                            No Date Given
+                            @else
+                            {{ date('j M, Y', strtotime($author->death_date)) }}
+                            @endif
+                        </td>
                         <td>{{ $author->gender }}</td>
                         <td>{{ $author->user->name or "No User" }}</td>
-                        <td><a href="{{ route('music.authors.show',$author->id) }}" class="btn btn-default btn-sm">View</a> <a href="{{ route('music.authors.edit', $author->id) }}" class="btn btn-default btn-sm">Edit</a></td>
+                        <td class="text-right"><a href="{{ route('music.authors.show',$author->id) }}" class="btn btn-default btn-sm">View</a> <a href="{{ route('music.authors.edit', $author->id) }}" class="btn btn-default btn-sm">Edit</a></td>
                     </tr>
                     
                     @endforeach

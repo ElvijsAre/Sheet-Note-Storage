@@ -2,16 +2,10 @@
 
 @section('title', '| Edit Post')
 
-@section('stylesheets')
-    <!-- Parsly CSS validation -->
-    {!! Html::style('css/parsley.css') !!}
-
-@endsection
-
 @section ('content')
     
 <div class="row">
-    {!! Form::model($message, ['route' => ['messages.update', $message->id], 'data-parsley-validate' => '', 'method' => 'PUT']) !!}
+    {!! Form::model($message, ['route' => ['messages.update', $message->id], 'method' => 'PUT']) !!}
     <div class="col-md-8">
 
         <h1>{{ $message->title }}</h1>
@@ -50,10 +44,4 @@
     {!! Form::close() !!}
 
 
-@endsection
-
-@section('scripts')
-     <!-- Parsly Js validation -->
-    {!! Html::script('js/parsley.min.js') !!}
-    
 @endsection

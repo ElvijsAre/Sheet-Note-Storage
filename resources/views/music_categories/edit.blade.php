@@ -2,16 +2,10 @@
 
 @section('title', '| Edit Category')
 
-@section('stylesheets')
-    <!-- Parsly CSS validation -->
-    {!! Html::style('css/parsley.css') !!}
-
-@endsection
-
 @section ('content')
     
 <div class="row">
-    {!! Form::model($category, ['route' => ['music.categories.update', $category->id], 'data-parsley-validate' => '', 'method' => 'PUT']) !!}
+    {!! Form::model($category, ['route' => ['music.categories.update', $category->id], 'method' => 'PUT']) !!}
     <div class="col-md-8">
         
         {{ Form::label('name', 'Category Name:') }}
@@ -45,10 +39,4 @@
     {!! Form::close() !!}
 </div>
 
-@endsection
-
-@section('scripts')
-     <!-- Parsly Js validation -->
-    {!! Html::script('js/parsley.min.js') !!}
-    
 @endsection

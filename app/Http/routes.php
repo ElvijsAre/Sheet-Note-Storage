@@ -32,13 +32,19 @@ Route::post('password/reset', 'Auth\PasswordController@reset');
 Route::get('forum/{slug}', ['as' => 'forum.single', 'uses' => 'ForumController@getSingle'])->where('slug', '[\w\d\-\_]+');
 Route::get('forum', ['uses' => 'ForumController@getIndex', 'as' => 'forum.index']);
 Route::get('/', 'PagesController@getIndex');
-Route::get('/about', 'PagesController@getAbout');
 Route::get('/download/{file}', 'Sheet_musicController@download');
+
+// Profile Routes
+
+Route::get('/profile/{user}', ['as' => 'profile', 'uses' => 'ProfileController@getShow']);
+Route::get('/profile/{user}/edit', ['as' => 'profile.edit', 'uses' => 'ProfileController@getEdit']);
+Route::put('/profile/{user}', ['as' => 'profile.update', 'uses' => 'ProfileController@postUpdate']);
 
 // Reosurce Routes
 
 Route::resource('posts','PostController');
 Route::resource('comments','CommentController');
+Route::resource('categories','CategoriesController');
 Route::resource('messages','MessageController');
 Route::resource('music/authors','Music_authorController');
 Route::resource('music/categories','Music_categoriesController');

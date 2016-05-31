@@ -2,12 +2,6 @@
 
 @section('title',' | Create New Musical')
 
-@section('stylesheets')
-    <!-- Parsly CSS validation -->
-    {!! Html::style('css/parsley.css') !!}
-
-@endsection
-
 @section('content')
 
 <div class='row'>
@@ -15,10 +9,10 @@
         <h1>Create New Musical</h1>
         <hr>
         
-        {!! Form::open(array('route' => 'music.sheets.store', 'data-parsley-validate' => '')) !!}
+        {!! Form::open(array('route' => 'music.sheets.store')) !!}
         
             {{ Form::label('title', 'Title:') }}
-            {{ Form::text('title', null, array('class' => 'form-control', 'required' => '', 'maxlength' => '255')) }}
+            {{ Form::text('title', null, array('class' => 'form-control')) }}
                    
             {{ Form::label('categories', 'Categories:') }}
             {{ Form::select('categories[]', App\Music_categories::lists('name', 'id'), null, ['class' => 'form-control', 'multiple']) }}
@@ -30,11 +24,5 @@
         {!! Form::close() !!}
     </div>
 </div>
-
-@endsection
-
-@section('scripts')
-     <!-- Parsly Js validation -->
-    {!! Html::script('js/parsley.min.js') !!}
     
 @endsection

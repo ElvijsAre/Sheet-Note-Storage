@@ -46,20 +46,4 @@
         </div>
     </div>
 </div>
-<!--
-<div class="col-md-6 col-md-offset-3">
-<div class="panel panel-default">
-    <div class="panel-heading">Registarion</div>
-    <div class="panel-body">
-        <form class="form-horizontal">
-            <div class="form-group">
-                {{ Form::label('name', 'Name:', ['class' => 'col-sm-2 control-label form-group']) }}
-                <div class="col-sm-10">
-                {{ Form::text('name', null, ['class' => 'form-control']) }}
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
- -->
 @endsection

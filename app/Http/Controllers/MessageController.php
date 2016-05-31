@@ -12,6 +12,7 @@ use App\User;
 
 class MessageController extends Controller
 {
+    //Security check if user is loged in and is not blocked.
     public function __construct() {
         $this->middleware (['auth', 'blocked']);
     }
@@ -91,9 +92,9 @@ class MessageController extends Controller
      */
     public function edit($id)
     {
-        // dabut postu no datubazes un saglabat ka mainigo
+        // Get message from DB, save it as variable
         $message = Message::find($id);
-        //return the view ar mainigo, kurs satur info
+        //return the view with viraiable
         return view('messages.edit')->withMessage($message);
     }
 
@@ -115,11 +116,11 @@ class MessageController extends Controller
 
             $message->save();
 
-            // set flash data are success zinu
+            // set flash data with success ,essage
 
             Session::flash('success', 'This message was succesfully deleted!');
 
-            // refirect ar flast datiem uz posts.show
+            // redirect with flash datta to posts.show
             return redirect()->route('messages.index');
             }
         if (Auth::user()->id == $message->sender_id)
@@ -128,28 +129,28 @@ class MessageController extends Controller
 
             $message->save();
 
-            // set flash data are success zinu
+            // set flash data ar success messsage
 
             Session::flash('success', 'This message was succesfully deleted!');
 
-            // refirect ar flast datiem uz posts.show
+            // redirect with flash datta to posts.show
             return redirect()->route('messages.index');
             }
-        // Ja ir admins    
+        // If admin  
         if (Auth::user()->id == $message->recipient_id)
             {
             $message->is_deleted_recipient = 1;
 
             $message->save();
 
-            // set flash data are success zinu
+            // set flash data ar success messsage
 
             Session::flash('success', 'This message was succesfully deleted!');
 
-            // refirect ar flast datiem uz posts.show
+            // redirect with flash datta to posts.show
             return redirect()->route('messages.index');
             }
-        // kļūdas paziņojums, ja nav posta autors vai admins
+        // If use not admin or author
         else 
             {
             Session::flash('failed', "You aren't the messages sender or recipient!");

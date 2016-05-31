@@ -31,13 +31,8 @@
             </dl>
             <hr>
             <div class="row">
-                <div class="col-sm-6">
+                <div class="col-sm-12">
                     {!! Html::linkRoute('admin.edit', 'Edit', array($user->id), array('class' => 'btn btn-primary btn-block')) !!}
-                </div>
-                <div class="col-sm-6">
-                    {!! Form::open(['route' => ['admin.destroy', $user->id], 'method' => 'DELETE']) !!}           
-                    {!! Form::submit('Delete', ["class" => 'btn btn-danger btn-block']) !!}                    
-                    {!! Form::close() !!}
                 </div>
             </div>
             

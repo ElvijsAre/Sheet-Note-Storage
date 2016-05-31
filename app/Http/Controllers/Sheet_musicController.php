@@ -16,6 +16,7 @@ use App\User;
 
 class Sheet_musicController extends Controller
 {
+    //Security check if user is loged in and is not blocked.
     public function __construct() {
         $this->middleware (['auth', 'blocked']);
     }
@@ -72,7 +73,7 @@ class Sheet_musicController extends Controller
         
         // redirect
         
-        return redirect()->route('music.sheets.show', $sheet->id);
+        return redirect()->route('music.sheets.index');
     }
 
     /**
@@ -128,7 +129,7 @@ class Sheet_musicController extends Controller
         
         // redirect
         
-        return redirect()->route('music.sheets.show', $sheet->id);
+        return redirect()->route('music.sheets.index');
     }
 
     /**
@@ -139,14 +140,24 @@ class Sheet_musicController extends Controller
      */
     public function destroy($id)
     {
-        $sheet = sheet_music::find($id);
-        $sheet->delete();
-        
-        Session::flash('success', 'The post was successfully deleted.');
-        
-        return redirect()->route('music.sheets.index');
-    
+        if (Auth::user()->is_admin == 1) {
+            $sheet = sheet_music::find($id);
+            $sheet->delete();
+
+            Session::flash('success', 'The Musical was successfully deleted.');
+
+            return redirect()->route('music.sheets.index');
+        } else {
+            Session::flash('failed', 'Only admins can delete Musicals!');
+            return redirect()->route('music.authors.index');
+        }
     }
+    /**
+     * Allows to download files
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function download($file_name) 
     {
         $file_path = storage_path('app/public/files/'.$file_name);
